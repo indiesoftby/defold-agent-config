@@ -118,26 +118,6 @@ end
 
 function M.get_commands()
 	return {
-		-- DEBUG: temporary command to inspect outline node properties
-		{
-			label = "DEBUG: Inspect Outline Node",
-			locations = {"Outline"},
-			query = {
-				selection = {type = "outline", cardinality = "one"}
-			},
-			active = function(opts)
-				return true
-			end,
-			run = function(opts)
-				local node = opts.selection
-				local props = {"path", "id", "url", "default_animation", SPRITE_IMAGE_PROP}
-				for _, prop in ipairs(props) do
-					local can = editor.can_get(node, prop)
-					local val = can and editor.get(node, prop) or "N/A"
-					print(prop .. ": can_get=" .. tostring(can) .. " value=" .. tostring(val))
-				end
-			end
-		},
 		-- Command 1: Generate from image file in Assets panel
 		{
 			label = "Generate Convex Shape...",
