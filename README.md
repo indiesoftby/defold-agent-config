@@ -47,6 +47,7 @@ Open your project in Defold Editor and your AI agent side by side. Here's what y
 - **"How does `go.animate` work?"** - the agent will fetch the API docs with `defold-api-fetch` and explain it with examples.
 - **"I added a new dependency to game.project, update .deps"** — the agent will run `defold-project-setup` to re-download dependencies.
 - **"Implement an isolated Lua module for arcade 2D collision based on quad-tree, with tests"** — the agent will write a self-contained module following project conventions and create unit tests for it.
+- **"Isolate this code into a local Lua function and create its C++ native extension variant"** — the agent will refactor selected code into a Lua function and then use `defold-native-extension-editing` to create a C++ implementation.
 
 Just describe what you want in plain language - the agent knows your project structure, Defold APIs, and all the conventions from `AGENTS.md`.
 
