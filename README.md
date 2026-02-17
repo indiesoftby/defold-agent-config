@@ -11,12 +11,15 @@ Translations: [Русский](README_RU.md)
 The configuration uses the `.agents/` directory format, which is supported by:
 
 - **[Amp](https://ampcode.com)**
-- **[Cursor](https://cursor.com)**
+- **[Claude Code](https://claude.ai/code)** (requires renaming `.agents/` to `.claude/`)
 - **[Codex CLI](https://github.com/openai/codex)**
+- **[Cursor](https://cursor.com)**
 - **[Factory Droid](https://factory.ai)**
+- **[GitHub Copilot](https://github.com/features/copilot)** (requires renaming `.agents/` to `.github/`)
 - **[Kilo Code](https://kilocode.ai)**
 - **[OpenCode](https://opencode.ai)**
 - **[Warp](https://warp.dev)**
+- **[Windsurf](https://windsurf.com)** (requires renaming `.agents/` to `.windsurf/`)
 - and many others
 
 ## Prerequisites
@@ -30,7 +33,11 @@ The configuration uses the `.agents/` directory format, which is supported by:
 ## Installation
 
 1. Copy `AGENTS.md`, the `.agents/` folder, and the `.defignore` file into the root of your Defold project.
-> **Note:** **Claude Code** and **Windsurf** use their own directories (`.claude/` and `.windsurf/` respectively). To use this configuration with them, you may need to rename `.agents/` to the corresponding directory name.
+
+> **Note:** Some AI agents use their own directories:
+> - **Claude Code**: Rename `.agents/` to `.claude/` and run find-and-replace across all `.md` files: `.agents/` → `.claude/`
+> - **GitHub Copilot**: Rename `.agents/` to `.github/` and run find-and-replace across all `.md` files: `.agents/skills/` → `.github/skills/`
+> - **Windsurf**: Rename `.agents/` to `.windsurf/` and run find-and-replace across all `.md` files: `.agents/` → `.windsurf/`
 
 2. Ask your AI agent: `Run the defold-project-setup skill to download dependencies into .deps/`
 3. Ask your AI agent: `Update AGENTS.md based on my project's structure, dependencies, and folders`

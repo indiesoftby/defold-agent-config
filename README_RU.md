@@ -11,15 +11,16 @@
 Конфигурация использует формат директории `.agents/`, который поддерживается:
 
 - **[Amp](https://ampcode.com)**
-- **[Cursor](https://cursor.com)**
+- **[Claude Code](https://claude.ai/code)** (требует переименования `.agents/` в `.claude/`)
 - **[Codex CLI](https://github.com/openai/codex)**
+- **[Cursor](https://cursor.com)**
 - **[Factory Droid](https://factory.ai)**
+- **[GitHub Copilot](https://github.com/features/copilot)** (требует переименования `.agents/` в `.github/`)
 - **[Kilo Code](https://kilocode.ai)**
 - **[OpenCode](https://opencode.ai)**
 - **[Warp](https://warp.dev)**
+- **[Windsurf](https://windsurf.com)** (требует переименования `.agents/` в `.windsurf/`)
 - и многими другими
-
-> **Примечание:** **Claude Code** и **Windsurf** используют собственные директории (`.claude/` и `.windsurf/` соответственно). Для работы с ними может потребоваться переименовать `.agents/` в соответствующее имя директории.
 
 ## Требования
 
@@ -32,6 +33,12 @@
 ## Установка
 
 1. Скопируйте `AGENTS.md`, папку `.agents/` и файл `.defignore` в корень вашего Defold-проекта.
+
+> **Примечание:** Некоторые ИИ-агенты используют собственные директории:
+> - **Claude Code**: Переименуйте `.agents/` в `.claude/` и выполните поиск-замену во всех `.md` файлах: `.agents/` → `.claude/`
+> - **GitHub Copilot**: Переименуйте `.agents/` в `.github/` и выполните поиск-замену во всех `.md` файлах: `.agents/skills/` → `.github/skills/`
+> - **Windsurf**: Переименуйте `.agents/` в `.windsurf/` и выполните поиск-замену во всех `.md` файлах: `.agents/` → `.windsurf/`
+
 2. Попросите вашего ИИ-агента: `Запусти скилл defold-project-setup, чтобы скачать зависимости в .deps/`
 3. Попросите вашего ИИ-агента: `Обнови AGENTS.md на основе структуры моего проекта, зависимостей и папок`
 
