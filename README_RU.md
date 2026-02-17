@@ -13,6 +13,7 @@
 - **[Amp](https://ampcode.com)**
 - **[Cursor](https://cursor.com)**
 - **[Codex CLI](https://github.com/openai/codex)**
+- **[Factory Droid](https://factory.ai)**
 - **[Kilo Code](https://kilocode.ai)**
 - **[OpenCode](https://opencode.ai)**
 - **[Warp](https://warp.dev)**
