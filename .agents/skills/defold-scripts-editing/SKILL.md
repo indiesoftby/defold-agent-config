@@ -1,13 +1,35 @@
 ---
 name: defold-scripts-editing
-description: "Creates and edits Defold Lua script files (.script, .gui_script, .render_script, .editor_script). Use when asked to create, modify, or configure any Defold script — game object scripts, GUI scripts, render scripts, or editor extension scripts."
+description: "Creates and edits Defold Lua script files (.script, .gui_script, .render_script, .editor_script) and plain Lua modules (.lua). Use when asked to create, modify, or configure any Defold script or Lua module."
 ---
 
-# Editing Defold Script Files
+# Editing Defold Script Files and Lua Modules
 
-Defold has four Lua script types, each running in a different context with different APIs.
+Defold has four Lua script types (each running in a different context with different APIs) and plain `.lua` modules for reusable logic.
 
 **For API details** use `defold-api-fetch` skill. **For conceptual manuals** use `defold-docs-fetch` skill. This skill covers script structure, constraints, and templates.
+
+## Lua modules (.lua)
+
+Plain `.lua` files are Lua modules used to encapsulate reusable logic. **Extract frequently used universal logic into `.lua` modules** — avoid duplication and keep scripts lean. Modules are required via `require("path.to.module")` (dots as path separators).
+
+Defold projects typically use **Lua shared state** (`shared_state` in `game.project`). When enabled, all scripts, GUI scripts, and the render script run in the **same Lua context**. A Lua module required from any script has the **same context and state** within that single Lua interpreter instance — module-level locals and `package.loaded` are shared across all users of the module. Stateful modules behave like singletons.
+
+## Lua module structure (.lua)
+
+Encapsulate data and functions in a local table, return it:
+
+```lua
+local M = {}
+
+function M.hello()
+    print("Hello")
+end
+
+return M
+```
+
+Avoid globals in modules. For stateful modules, internal state is shared between all callers (singleton-like). For stateless logic, pass state explicitly or use constructors that return new state tables. See [Modules manual](https://defold.com/llms/manuals/modules.md).
 
 ## Script types
 
@@ -20,7 +42,7 @@ Defold has four Lua script types, each running in a different context with diffe
 
 ## File format
 
-All script types are plain Lua files (not Protobuf Text Format). Each has its own extension.
+All script types and `.lua` modules are plain Lua files (not Protobuf Text Format). Scripts use specific extensions (`.script`, `.gui_script`, etc.); modules use `.lua`.
 
 ## Common runtime script patterns (.script, .gui_script, .render_script)
 
@@ -80,7 +102,7 @@ Types: `table`, `string`, `boolean`, `number`, `function`. Multiple types: `[typ
 
 ## Lua preprocessing
 
-Defold supports conditional compilation via the [Lua preprocessor extension](https://github.com/defold/extension-lua-preprocessor) (applies to all Lua script types):
+Defold supports conditional compilation via the [Lua preprocessor extension](https://github.com/defold/extension-lua-preprocessor) (applies to all Lua files including `.lua` modules):
 
 ```lua
 --#IF DEBUG
@@ -102,6 +124,13 @@ Consult the `references/` directory for constraints, templates, and patterns spe
 - `references/editor_script.md` — module structure, commands, lifecycle hooks, execution modes, templates
 
 ## Workflow
+
+### Creating a new Lua module (.lua)
+
+1. Use when logic is reusable across multiple scripts or screens.
+2. Create a local table, add functions, return it.
+3. Keep modules stateless when possible; if stateful, document that state is shared.
+4. Require with dot notation: `require("main.utils")`, `require("screens.game.helpers")`.
 
 ### Creating a new script
 
