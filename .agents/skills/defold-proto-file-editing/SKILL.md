@@ -1,6 +1,6 @@
 ---
 name: defold-proto-file-editing
-description: "Creates and edits Defold resource and component files that use Protobuf Text Format (.collection, .go, .atlas, .sprite, .gui, .collisionobject, .convexshape, .label, .font, .material, .model, .mesh, .particlefx, .sound, .camera, .factory, .collectionfactory, .collectionproxy, .tilemap, .tilesource, .objectinterpolation). Use when asked to create, modify, or configure any Defold proto text format file."
+description: "Creates and edits Defold resource and component files that use Protobuf Text Format (.collection, .go, .atlas, .sprite, .gui, .collisionobject, .convexshape, .label, .font, .material, .model, .mesh, .particlefx, .sound, .camera, .factory, .collectionfactory, .collectionproxy, .tilemap, .tilesource, .objectinterpolation) and shader files (.vp, .fp, .glsl). Use when asked to create, modify, or configure any Defold proto text format file or shader."
 ---
 
 # Editing Defold Proto Text Format Files
@@ -38,6 +38,51 @@ For detailed field references, consult the per-type reference file in `reference
 - `references/objectinterpolation.md` — `.objectinterpolation` files (extension: interpolation of fixed step movement)
 
 For skill maintenance tasks (updating references, fetching proto schemas), use the `defold-skill-maintain` skill.
+
+## Shaders and materials relationship
+
+Shaders (`.vp`, `.fp`, `.glsl`) are GLSL files and are NOT covered by this skill. However, shaders and materials are tightly coupled:
+
+### Data flow from material to shader
+
+1. **Constants** declared in `vertex_constants` / `fragment_constants` become `uniform` variables in shaders. Engine-provided constants (`CONSTANT_TYPE_VIEW`, `CONSTANT_TYPE_PROJECTION`, etc.) are automatically populated. User constants (`CONSTANT_TYPE_USER`) can be animated via `go.set()` / `go.animate()`.
+
+2. **Samplers** declared in `samplers` become `sampler2D` uniforms. The sampler `name` in the material must match the uniform name in the shader.
+
+3. **Attributes** declared in `attributes` become vertex `in` variables. Semantic types like `SEMANTIC_TYPE_POSITION`, `SEMANTIC_TYPE_TEXCOORD` provide engine-generated data.
+
+### Instancing with mtx_world and mtx_normal
+
+For instanced rendering, two special vertex attributes are available **without declaring them in the material's `attributes` section**:
+
+- `mtx_world` — `mat4` world transformation matrix (per-instance)
+- `mtx_normal` — `mat4` normal transformation matrix (per-instance)
+
+When these are declared as vertex `in` attributes in the shader, Defold automatically enables instanced rendering:
+
+```glsl
+// model_instanced.vp
+in mediump mat4 mtx_world;
+in mediump mat4 mtx_normal;
+
+void main() {
+    vec4 p = mtx_view * mtx_world * vec4(position.xyz, 1.0);
+    var_normal = normalize((mtx_normal * vec4(normal, 0.0)).xyz);
+    gl_Position = mtx_proj * p;
+}
+```
+
+**Requirements for instancing**:
+- Material must have `vertex_space: VERTEX_SPACE_LOCAL`
+- Shader declares `mtx_world` and/or `mtx_normal` as `in` attributes
+- No need to add these to the material's `attributes` list
+
+### Reference examples
+
+Built-in shader examples are in `.deps/builtins/materials/`:
+- `sprite.vp` / `sprite.fp` — 2D sprite rendering (world space)
+- `model.vp` / `model.fp` — 3D model rendering (local space, uniforms)
+- `model_instanced.vp` — 3D model with instancing (uses `mtx_world`, `mtx_normal` as attributes)
 
 ## Bundled scripts
 
