@@ -1,0 +1,49 @@
+local function format_time(seconds)
+	return string.format("%.3f", seconds)
+end
+
+local ANIM_DURATION = 0.35
+local ANIM_EASING = gui.EASING_OUTQUAD
+
+function init(self)
+	local best_time_node = gui.get_node("best_time")
+	gui.set_text(best_time_node, "Best: --:--")
+
+	local restart_node = gui.get_node("restart_text")
+	gui.set_alpha(restart_node, 0)
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("update_timer") then
+		local timer_node = gui.get_node("timer")
+		gui.set_text(timer_node, format_time(message.time))
+	elseif message_id == hash("game_over") then
+		local timer_node = gui.get_node("timer")
+		gui.set_text(timer_node, format_time(message.time))
+
+		if message.best_time then
+			local best_node = gui.get_node("best_time")
+			local text = "Best: " .. format_time(message.best_time)
+			if message.is_new_record then
+				text = "NEW! " .. text
+			end
+		gui.set_text(best_node, text)
+			gui.set_alpha(best_node, 0)
+			gui.animate(best_node, "color.w", 1, ANIM_EASING, ANIM_DURATION)
+		end
+
+		local restart_node = gui.get_node("restart_text")
+		gui.set_alpha(restart_node, 0)
+		gui.animate(restart_node, "color.w", 1, ANIM_EASING, ANIM_DURATION)
+		gui.set_scale(restart_node, vmath.vector3(1.15, 1.15, 1))
+		gui.animate(restart_node, "scale", vmath.vector3(0.6, 0.6, 1), gui.EASING_OUTBOUNCE, ANIM_DURATION)
+	elseif message_id == hash("game_start") then
+		local timer_node = gui.get_node("timer")
+		gui.set_text(timer_node, "0.000")
+		gui.set_alpha(timer_node, 0)
+		gui.animate(timer_node, "color.w", 1, ANIM_EASING, ANIM_DURATION)
+
+		local restart_node = gui.get_node("restart_text")
+		gui.set_alpha(restart_node, 0)
+	end
+end

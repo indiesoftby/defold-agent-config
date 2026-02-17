@@ -1,0 +1,3 @@
+function init(self)
+	print("screen_example is shown")
+end

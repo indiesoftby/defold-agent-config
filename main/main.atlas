@@ -1,0 +1,44 @@
+images {
+  image: "/assets/kenney_new-platformer-pack-1.1/Sprites/Characters/Default/character_purple_duck.png"
+}
+images {
+  image: "/assets/kenney_new-platformer-pack-1.1/Sprites/Characters/Default/character_purple_front.png"
+}
+images {
+  image: "/assets/kenney_new-platformer-pack-1.1/Sprites/Characters/Default/character_purple_hit.png"
+}
+images {
+  image: "/assets/kenney_new-platformer-pack-1.1/Sprites/Characters/Default/character_purple_idle.png"
+}
+images {
+  image: "/assets/kenney_new-platformer-pack-1.1/Sprites/Characters/Default/character_purple_jump.png"
+}
+images {
+  image: "/assets/kenney_new-platformer-pack-1.1/Sprites/Tiles/Default/bricks_grey.png"
+}
+images {
+  image: "/assets/kenney_new-platformer-pack-1.1/Sprites/Characters/Default/character_yellow_duck.png"
+}
+animations {
+  id: "character_purple_walk"
+  images {
+    image: "/assets/kenney_new-platformer-pack-1.1/Sprites/Characters/Default/character_purple_walk_a.png"
+  }
+  images {
+    image: "/assets/kenney_new-platformer-pack-1.1/Sprites/Characters/Default/character_purple_walk_b.png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 10
+}
+animations {
+  id: "character_purple_climb"
+  images {
+    image: "/assets/kenney_new-platformer-pack-1.1/Sprites/Characters/Default/character_purple_climb_a.png"
+  }
+  images {
+    image: "/assets/kenney_new-platformer-pack-1.1/Sprites/Characters/Default/character_purple_climb_b.png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 10
+}
+extrude_borders: 2

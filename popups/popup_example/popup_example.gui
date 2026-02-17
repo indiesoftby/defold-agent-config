@@ -1,0 +1,22 @@
+script: "/popups/popup_example/popup_example.gui_script"
+fonts {
+  name: "default"
+  font: "/assets/fonts/Unbounded-ExtraBold-50.font"
+}
+nodes {
+  position {
+    x: 640.0
+    y: 360.0
+  }
+  size {
+    x: 1000.0
+    y: 75.0
+  }
+  type: TYPE_TEXT
+  text: "Popup Example"
+  font: "default"
+  id: "text"
+  inherit_alpha: true
+}
+material: "/builtins/materials/gui.material"
+adjust_reference: ADJUST_REFERENCE_PARENT

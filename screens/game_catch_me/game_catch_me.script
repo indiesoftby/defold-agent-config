@@ -1,0 +1,128 @@
+local best_time = require("modules.best_time")
+
+local STATE_GAME_START = "game_start"
+local STATE_GAMEPLAY = "gameplay"
+local STATE_GAME_OVER = "game_over"
+local STATE_WAITING_RESTART = "waiting_restart"
+
+local PLAYER_START_X = 380
+local PLAYER_START_Y = 360
+
+local BRICK_SIZE = 64
+local FIELD_X = 288
+local FIELD_Y = 8
+local FIELD_W = 704
+local FIELD_H = 704
+local PADDING = 200
+
+local function compute_zoom(self)
+	local win_w, win_h = window.get_size()
+	if win_w == 0 or win_h == 0 then
+		return
+	end
+	local scale = window.get_display_scale()
+	local content_w = FIELD_W + BRICK_SIZE * 2 + PADDING * 2
+	local content_h = FIELD_H + BRICK_SIZE * 2 + PADDING * 2
+	local zoom_x = (win_w / scale) / content_w
+	local zoom_y = (win_h / scale) / content_h
+	local zoom = math.min(zoom_x, zoom_y)
+	camera.set_orthographic_zoom("camera#camera", zoom)
+end
+
+local function spawn_bricks(self)
+	self.brick_ids = {}
+	local left_x = FIELD_X - BRICK_SIZE / 2
+	local right_x = FIELD_X + FIELD_W + BRICK_SIZE / 2
+	local bottom_y = FIELD_Y - BRICK_SIZE / 2
+	local top_y = FIELD_Y + FIELD_H + BRICK_SIZE / 2
+	local start_x = left_x
+	local end_x = right_x
+	local count_h = math.floor((end_x - start_x) / BRICK_SIZE) + 1
+	for i = 0, count_h - 1 do
+		local x = start_x + i * BRICK_SIZE
+		local id_b = factory.create("#brick_factory", vmath.vector3(x, bottom_y, -0.1))
+		local id_t = factory.create("#brick_factory", vmath.vector3(x, top_y, -0.1))
+		table.insert(self.brick_ids, id_b)
+		table.insert(self.brick_ids, id_t)
+	end
+	local start_y = bottom_y + BRICK_SIZE
+	local end_y = top_y - BRICK_SIZE
+	local count_v = math.floor((end_y - start_y) / BRICK_SIZE) + 1
+	for i = 0, count_v - 1 do
+		local y = start_y + i * BRICK_SIZE
+		local id_l = factory.create("#brick_factory", vmath.vector3(left_x, y, -0.1))
+		local id_r = factory.create("#brick_factory", vmath.vector3(right_x, y, -0.1))
+		table.insert(self.brick_ids, id_l)
+		table.insert(self.brick_ids, id_r)
+	end
+	print("game_catch_me: spawned " .. #self.brick_ids .. " bricks")
+end
+
+local function start_game(self)
+	self.state = STATE_GAMEPLAY
+	self.elapsed_time = 0
+	msg.post("player#script", "start")
+	msg.post("enemy#script", "reset")
+	msg.post("#gui", "game_start")
+	print("game_catch_me: gameplay started")
+end
+
+function init(self)
+	msg.post(".", "acquire_input_focus")
+	self.state = STATE_GAME_START
+	self.elapsed_time = 0
+	spawn_bricks(self)
+	compute_zoom(self)
+	window.set_listener(function(_, event, data)
+		if event == window.WINDOW_EVENT_RESIZED then
+			compute_zoom(self)
+		end
+	end)
+	print("game_catch_me: initialized")
+	timer.delay(0.5, false, function()
+		start_game(self)
+	end)
+end
+
+function update(self, dt)
+	if self.state == STATE_GAMEPLAY then
+		self.elapsed_time = self.elapsed_time + dt
+		msg.post("#gui", "update_timer", { time = self.elapsed_time })
+	end
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("player_caught") then
+		if self.state == STATE_GAMEPLAY then
+			self.state = STATE_GAME_OVER
+			local is_new_record = best_time.set(self.elapsed_time)
+			local best = best_time.get()
+			msg.post("player#script", "stop")
+			msg.post("#gui", "game_over", {
+				time = self.elapsed_time,
+				best_time = best,
+				is_new_record = is_new_record
+			})
+			print("game_catch_me: game over, time=" .. string.format("%.2f", self.elapsed_time))
+			timer.delay(1.0, false, function()
+				self.state = STATE_WAITING_RESTART
+				print("game_catch_me: waiting for restart")
+			end)
+		end
+	end
+end
+
+function on_input(self, action_id, action)
+	if self.state == STATE_GAMEPLAY then
+		if not action_id then
+			local world_pos = camera.screen_xy_to_world(action.screen_x, action.screen_y, "camera#camera")
+			msg.post("player#script", "input_move", { x = world_pos.x, y = world_pos.y })
+		end
+	elseif self.state == STATE_WAITING_RESTART then
+		if action_id == hash("touch") and action.pressed then
+			msg.post("player#script", "reset")
+			go.set_position(vmath.vector3(PLAYER_START_X, PLAYER_START_Y, 0), "player")
+			start_game(self)
+		end
+	end
+end

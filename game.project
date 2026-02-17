@@ -1,0 +1,48 @@
+[project]
+title = agent_config_example
+version = 1.0.0
+dependencies#0 = https://github.com/britzl/monarch/archive/refs/tags/5.2.0.zip
+dependencies#1 = https://github.com/indiesoftby/defold-object-interpolation/archive/refs/tags/1.3.1.zip
+dependencies#2 = https://github.com/indiesoftby/defold-sharp-sprite/archive/refs/tags/1.0.0.zip
+
+[bootstrap]
+main_collection = /main/main.collectionc
+
+[input]
+game_binding = /builtins/input/all.input_bindingc
+use_accelerometer = 0
+
+[display]
+width = 960
+height = 720
+high_dpi = 1
+
+[script]
+shared_state = 1
+
+[windows]
+app_icon = /assets/app_icons/appicon.ico
+
+[osx]
+app_icon = /assets/app_icons/appicon.icns
+
+[android]
+input_method = HiddenInputField
+
+[physics]
+gravity_y = -1000.0
+scale = 0.01
+velocity_threshold = 100.0
+use_fixed_timestep = 1
+max_fixed_timesteps = 0
+
+[html5]
+scale_mode = stretch
+heap_size = 64
+cssfile = /builtins/manifests/web/dark_theme.css
+retry_count = 1000
+
+[engine]
+fixed_update_frequency = 60
+max_time_step = 0.05
+

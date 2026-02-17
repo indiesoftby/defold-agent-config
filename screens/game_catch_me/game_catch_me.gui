@@ -1,0 +1,70 @@
+script: "/screens/game_catch_me/game_catch_me.gui_script"
+fonts {
+  name: "main_font"
+  font: "/assets/fonts/Unbounded-ExtraBold-50.font"
+}
+nodes {
+  position {
+    x: 480.0
+    y: 721.0097
+  }
+  size {
+    x: 600.0
+    y: 60.0
+  }
+  type: TYPE_TEXT
+  text: "0.000"
+  font: "main_font"
+  id: "timer"
+  yanchor: YANCHOR_TOP
+  pivot: PIVOT_N
+  inherit_alpha: true
+}
+nodes {
+  position {
+    x: 480.0
+    y: 661.0097
+  }
+  scale {
+    x: 0.66
+    y: 0.66
+  }
+  size {
+    x: 600.0
+    y: 60.0
+  }
+  color {
+    x: 0.6
+    y: 0.6
+    z: 0.6
+  }
+  type: TYPE_TEXT
+  text: "Best: --:--"
+  font: "main_font"
+  id: "best_time"
+  yanchor: YANCHOR_TOP
+  pivot: PIVOT_N
+  inherit_alpha: true
+}
+nodes {
+  position {
+    x: 480.0
+    y: 480.29514
+  }
+  scale {
+    x: 0.6
+    y: 0.6
+  }
+  size {
+    x: 800.0
+    y: 60.0
+  }
+  type: TYPE_TEXT
+  text: "Tap to restart"
+  font: "main_font"
+  id: "restart_text"
+  inherit_alpha: true
+  alpha: 0.0
+}
+material: "/sharp_sprite/rgss/materials/gui.material"
+adjust_reference: ADJUST_REFERENCE_PARENT

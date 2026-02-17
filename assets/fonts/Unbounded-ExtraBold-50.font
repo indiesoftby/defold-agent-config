@@ -1,0 +1,6 @@
+font: "/assets/fonts/Unbounded-ExtraBold.ttf"
+material: "/builtins/fonts/font-df.material"
+size: 50
+output_format: TYPE_DISTANCE_FIELD
+all_chars: true
+characters: " !\"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~"

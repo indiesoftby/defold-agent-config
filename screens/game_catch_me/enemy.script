@@ -1,0 +1,20 @@
+function init(self)
+	self.caught = false
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("contact_point_response") then
+		if not self.caught and message.group == hash("player") then
+			self.caught = true
+			sprite.play_flipbook("#sprite", "character_purple_climb")
+			local pos = go.get_position()
+			msg.post("player#script", "pull_to", { x = pos.x, y = pos.y })
+			msg.post("/go#script", "player_caught")
+			print("enemy: caught player!")
+		end
+	elseif message_id == hash("reset") then
+		self.caught = false
+		sprite.play_flipbook("#sprite", "character_purple_walk")
+		print("enemy: reset")
+	end
+end

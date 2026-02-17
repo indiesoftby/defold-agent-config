@@ -1,0 +1,27 @@
+local monarch = require("monarch.monarch")
+
+--- Fails on error in desktop builds.
+-- @param all_platforms[opt] boolean If true, fails on error in all platforms. Default: false.
+local function fail_on_error()
+	if not html5 then
+		sys.set_error_handler(function(source, message, traceback)
+			print("ERROR ^^^^^^^^^^^^^^^^^")
+			sys.exit(1)
+		end)
+		return
+	end
+end
+
+function init(self)
+	fail_on_error()
+	-- monarch.debug()
+
+	msg.post(".", "acquire_input_focus")
+	msg.post("#", "start")
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("start") then
+		monarch.show("game_catch_me", { clear = true })
+	end
+end

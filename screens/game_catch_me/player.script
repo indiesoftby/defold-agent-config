@@ -1,0 +1,80 @@
+local MAX_SPEED = 500
+local SMOOTH_TIME = 0.15
+local FIELD_MIN_X = 330
+local FIELD_MAX_X = 950
+local FIELD_MIN_Y = 50
+local FIELD_MAX_Y = 670
+local PULL_SPEED = 200
+
+local function smooth_damp_axis(current, target, velocity, dt)
+	local omega = 2.0 / SMOOTH_TIME
+	local x = omega * dt
+	local exp_factor = 1.0 / (1.0 + x + 0.48 * x * x + 0.235 * x * x * x)
+	local max_delta = MAX_SPEED * SMOOTH_TIME
+	local delta = current - target
+	delta = math.max(-max_delta, math.min(max_delta, delta))
+	local adjusted_target = current - delta
+	local temp = (velocity + omega * delta) * dt
+	local new_velocity = (velocity - omega * temp) * exp_factor
+	local new_value = adjusted_target + (delta + temp) * exp_factor
+	return new_value, new_velocity
+end
+
+function init(self)
+	self.active = false
+	self.velocity_x = 0
+	self.velocity_y = 0
+	self.target_x = 0
+	self.target_y = 0
+	self.being_pulled = false
+	self.pull_target = vmath.vector3()
+end
+
+function fixed_update(self, dt)
+	local pos = go.get_position()
+
+	if self.being_pulled then
+		local dir = self.pull_target - pos
+		local dist = vmath.length(dir)
+		if dist > 1 then
+			dir = vmath.normalize(dir)
+			pos = pos + dir * PULL_SPEED * dt
+		end
+		go.set_position(pos)
+		return
+	end
+
+	if not self.active then
+		return
+	end
+
+	pos.x, self.velocity_x = smooth_damp_axis(pos.x, self.target_x, self.velocity_x, dt)
+	pos.y, self.velocity_y = smooth_damp_axis(pos.y, self.target_y, self.velocity_y, dt)
+
+	pos.x = math.max(FIELD_MIN_X, math.min(FIELD_MAX_X, pos.x))
+	pos.y = math.max(FIELD_MIN_Y, math.min(FIELD_MAX_Y, pos.y))
+	go.set_position(pos)
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("input_move") then
+		self.target_x = message.x
+		self.target_y = message.y
+	elseif message_id == hash("start") then
+		self.active = true
+		self.being_pulled = false
+		print("player: activated")
+	elseif message_id == hash("stop") then
+		self.active = false
+		print("player: stopped")
+	elseif message_id == hash("reset") then
+		self.active = false
+		self.velocity_x = 0
+		self.velocity_y = 0
+		self.being_pulled = false
+		print("player: reset")
+	elseif message_id == hash("pull_to") then
+		self.being_pulled = true
+		self.pull_target = vmath.vector3(message.x, message.y, 0)
+	end
+end
