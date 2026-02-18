@@ -88,6 +88,7 @@ Built-in shader examples are in `.deps/builtins/materials/`:
 
 - `scripts/get_image_size.py` — Get image dimensions (width × height) from PNG/JPEG files. Pure Python, no external dependencies. Use this when creating collision object box shapes that should match sprite image sizes. See `references/collisionobject.md` → "Sizing box shapes from sprite images" for the full workflow.
 - `scripts/gen_convexshape.py` — Generate a `.convexshape` file from a 2D image's non-transparent silhouette. Uses PIL/Pillow. Computes a convex hull, simplifies to ≤16 points (Box2D limit), centers at origin, and outputs Defold `.convexshape` format. See `references/convexshape.md` → "Generating from an image" for usage.
+- `scripts/gen_silhouette_chain.py` — Generate a `.collisionobject` file with a chain of rotated TYPE_BOX shapes tracing the contour of any image silhouette (concave, with holes, multi-part). Uses PIL/Pillow. Extracts boundary contour loops, simplifies with RDP, and outputs a `.collisionobject` with thin rotated boxes along each edge. See `references/collisionobject.md` → "Silhouette chain from image contour" for usage.
 
 ## Embedded component type names
 

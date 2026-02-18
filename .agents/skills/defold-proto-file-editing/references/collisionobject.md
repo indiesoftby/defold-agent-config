@@ -330,7 +330,8 @@ When creating a collision object for a sprite, choose the shape type based on th
 | Approach | When to use | How |
 |----------|-------------|-----|
 | **Box shape** (embedded `TYPE_BOX`) | Rectangular sprites, platforms, walls, UI elements | Use `get_image_size.py` → half-extents → `TYPE_BOX` data |
-| **Convex hull** (external `.convexshape`) | Characters, irregular shapes, sprites with transparency | Use `gen_convexshape.py` → `.convexshape` file → `collision_shape` property |
+| **Convex hull** (external `.convexshape`) | Characters, irregular convex shapes, sprites with transparency | Use `gen_convexshape.py` → `.convexshape` file → `collision_shape` property |
+| **Silhouette chain** (embedded multi-box) | Concave shapes, race tracks, complex outlines, static level geometry | Use `gen_silhouette_chain.py` → `.collisionobject` file with rotated `TYPE_BOX` shapes along contour |
 
 Ask the user which approach they prefer when the choice is ambiguous.
 
@@ -524,3 +525,68 @@ embedded_collision_shape {
 2. Modify only the requested fields.
 3. Preserve existing field values and order.
 4. Apply omission rules for fields that become equal to their defaults.
+
+## Silhouette chain from image contour
+
+For static level geometry with complex, concave, or multi-part shapes (e.g., race tracks, terrain outlines, irregular platforms), use the `gen_silhouette_chain.py` script to generate a `.collisionobject` file with thin, rotated `TYPE_BOX` shapes that trace the contour polygon of the image silhouette.
+
+This simulates concave collision in Box2D (which only supports convex primitives) by placing narrow boxes along every edge of the simplified boundary polygon.
+
+### How it works
+
+1. Reads the image and extracts the alpha channel
+2. Extracts directed boundary edges between opaque and transparent regions on the pixel grid
+3. Chains edges into closed contour loops (handles shapes touching image edges, multiple components, and holes)
+4. Simplifies each contour with Ramer-Douglas-Peucker (controlled by `--epsilon`)
+5. For each edge of the simplified polygon, emits a thin `TYPE_BOX` shape:
+   - **position** = edge midpoint in image-centred, Y-up Defold coordinates
+   - **rotation** = quaternion aligning the box along the edge angle
+   - **half-extents** = `(half_edge_length, thickness, 10.0)`
+6. Outputs a ready-to-use `.collisionobject` with `COLLISION_OBJECT_TYPE_STATIC`
+
+### Usage
+
+```
+python .agents/skills/defold-proto-file-editing/scripts/gen_silhouette_chain.py <image_path> [options]
+```
+
+Arguments:
+- `image_path` — path to PNG or JPEG image
+- `--output`, `-o` — output `.collisionobject` file path (default: prints to stdout)
+- `--epsilon`, `-e` — RDP simplification tolerance in pixels (default: 2.0). Lower = more edges, higher fidelity
+- `--thickness`, `-t` — half-thickness of wall boxes in pixels (default: 2.0)
+- `--alpha-threshold`, `-a` — alpha threshold for "non-transparent" pixels, 0-255 (default: 1)
+- `--group`, `-g` — collision group (default: `"geometry"`)
+- `--mask` — collision mask group, repeatable (default: `"default"`)
+- `--friction` — friction coefficient (default: 0.1)
+- `--restitution` — restitution / bounciness (default: 0.5)
+
+### Examples
+
+Generate collision for a race track:
+```
+python .agents/skills/defold-proto-file-editing/scripts/gen_silhouette_chain.py assets/images/track.png -o main/track.collisionobject
+```
+
+Higher fidelity contour (smaller epsilon):
+```
+python .agents/skills/defold-proto-file-editing/scripts/gen_silhouette_chain.py assets/images/terrain.png -o main/terrain.collisionobject -e 1.0
+```
+
+With custom physics properties:
+```
+python .agents/skills/defold-proto-file-editing/scripts/gen_silhouette_chain.py assets/images/wall.png -o main/wall.collisionobject --group "ground" --mask "player" --mask "enemy" --friction 0.3
+```
+
+Thicker walls for more forgiving collision:
+```
+python .agents/skills/defold-proto-file-editing/scripts/gen_silhouette_chain.py assets/images/border.png -o main/border.collisionobject -t 4.0
+```
+
+### Choosing the right epsilon
+
+| Epsilon | Result |
+|---------|--------|
+| 0.5–1.0 | High fidelity, many boxes. Use for small detailed sprites. |
+| 2.0–4.0 | Good balance. Default is 2.0. |
+| 8.0+ | Very simplified contour, few boxes. Use for large coarse shapes. |
