@@ -208,7 +208,7 @@ Constants declared in the material's `vertex_constants` / `fragment_constants` b
 | `CONSTANT_TYPE_PROJECTION` | `mat4` | Projection matrix |
 | `CONSTANT_TYPE_WORLDVIEW` | `mat4` | World × view matrix |
 | `CONSTANT_TYPE_WORLDVIEWPROJ` | `mat4` | World × view × projection matrix |
-| `CONSTANT_TYPE_NORMAL` | `mat4` | Normal matrix (transpose inverse of world-view) |
+| `CONSTANT_TYPE_NORMAL` | `mat4` | Normal matrix — `transpose(inverse(view * world))`. **Produces view-space normals, not world-space.** |
 | `CONSTANT_TYPE_USER` | `vec4` | Custom data, mutable via `go.set()` / `go.animate()` |
 | `CONSTANT_TYPE_USER_MATRIX4` | `mat4` | Custom matrix data, mutable via `go.set()` |
 
@@ -256,6 +256,47 @@ in mediump mat4 mtx_normal;
 ```
 
 The material must have `vertex_space: VERTEX_SPACE_LOCAL`. These attributes are automatically configured for per-instance step function.
+
+### Normal matrix (`mtx_normal`) — view-space vs world-space
+
+The built-in `CONSTANT_TYPE_NORMAL` computes `transpose(inverse(view * world))` on the CPU. This produces normals in **view-space** (camera-space), not world-space.
+
+**View-space normals are fine when:**
+- All lighting calculations are done in view-space
+- Camera position is implicitly at origin `(0,0,0)` (simplifies specular)
+
+**World-space normals are needed for:**
+- Cubemap reflections, environment mapping
+- World-space lighting, world-space effects
+
+To get world-space normals, compute the normal matrix from `mtx_world` in the vertex shader using the adjugate matrix trick (cheaper than full `inverse()` — 3 cross products instead of cofactor expansion):
+
+```glsl
+// transpose(adjugate(M)) for upper-left 3x3 of mat4.
+// Equivalent to transpose(inverse(M)) up to a uniform scale factor,
+// which is eliminated by normalize().
+mat3 adjoint(mat4 m)
+{
+    return mat3(
+        cross(m[1].xyz, m[2].xyz),
+        cross(m[2].xyz, m[0].xyz),
+        cross(m[0].xyz, m[1].xyz)
+    );
+}
+```
+
+Usage in vertex shader:
+
+```glsl
+var_world_normal = normalize(adjoint(mtx_world) * normal.xyz);
+```
+
+| Goal | Method |
+|------|--------|
+| View-space normals | Use built-in `mtx_normal` (`CONSTANT_TYPE_NORMAL`) |
+| World-space normals | Compute `normalize(adjoint(mtx_world) * normal.xyz)` in shader |
+
+**Key rule:** Never mix coordinate spaces — if light direction is in world-space, normals must also be in world-space.
 
 ## Canonical examples
 
