@@ -81,6 +81,7 @@
 | **defold-project-setup** | Загружает зависимости проекта в `.deps/` |
 | **defold-proto-file-editing** | Создаёт и редактирует файлы Defold в формате Protobuf Text |
 | **defold-scripts-editing** | Помогает с редактированием Lua-скриптов |
+| **defold-shaders-editing** | Создаёт и редактирует шейдерные файлы Defold (.vp, .fp, .glsl) |
 | **defold-skill-maintain** | Обслуживает и обновляет определения скиллов |
 | **monarch-screen-setup** | Настраивает экраны и попапы с помощью Monarch |
 

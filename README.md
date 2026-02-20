@@ -81,6 +81,7 @@ The following skills are included in `.agents/skills/`:
 | **defold-project-setup** | Downloads project dependencies into `.deps/` |
 | **defold-proto-file-editing** | Creates and edits Defold Protobuf Text Format files |
 | **defold-scripts-editing** | Assists with Lua script editing |
+| **defold-shaders-editing** | Creates and edits Defold shader files (.vp, .fp, .glsl) |
 | **defold-skill-maintain** | Maintains and updates skill definitions |
 | **monarch-screen-setup** | Sets up screens and popups using Monarch screen manager |
 
