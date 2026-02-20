@@ -27,6 +27,7 @@ Arguments:
     --epsilon, -e             RDP simplification tolerance in pixels (default: 2.0)
     --thickness, -t           Half-thickness of each wall box in pixels (default: 2.0)
     --alpha-threshold, -a     Alpha threshold for "non-transparent" (0-255, default: 1)
+    --force-png-py            Force using bundled png.py instead of PIL (PNG only)
     --group, -g               Collision group (default: "default")
     --mask                    Collision mask group (repeatable, default: "default")
     --friction                Friction coefficient (default: 0.1)
@@ -36,38 +37,22 @@ Output:
     Protobuf Text Format .collisionobject with COLLISION_OBJECT_TYPE_STATIC
     and embedded TYPE_BOX shapes.
 
+Environment:
+    FORCE_PNG_PY=1            Same as --force-png-py
+
 Exit code 0 on success, 1 on error.
 """
 
 import argparse
 import math
+import os
 import sys
 from typing import TextIO
 
-
-# ---------------------------------------------------------------------------
-# Image loading
-# ---------------------------------------------------------------------------
-
-def load_binary_mask(path: str, threshold: int) -> tuple[list[list[bool]], int, int]:
-    """Load image and return a 2D boolean mask (True = opaque), width, height."""
-    from PIL import Image
-
-    img = Image.open(path)
-    width, height = img.size
-
-    if img.mode != "RGBA":
-        img = img.convert("RGBA")
-    pixels = img.load()
-
-    mask: list[list[bool]] = []
-    for y in range(height):
-        row: list[bool] = []
-        for x in range(width):
-            row.append(pixels[x, y][3] >= threshold)
-        mask.append(row)
-
-    return mask, width, height
+# image_loader is in the same directory; adjust sys.path so it's importable
+# both when invoked directly and from the editor script.
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from image_loader import load_binary_mask
 
 
 # ---------------------------------------------------------------------------
@@ -403,6 +388,8 @@ def main() -> int:
                         help="Half-thickness of wall boxes in pixels (default: 2.0)")
     parser.add_argument("--alpha-threshold", "-a", type=int, default=1,
                         help="Alpha threshold for non-transparent pixels (0-255, default: 1)")
+    parser.add_argument("--force-png-py", action="store_true",
+                        help="Force using bundled png.py instead of PIL (PNG only)")
     parser.add_argument("--group", "-g", default="default",
                         help='Collision group (default: "default")')
     parser.add_argument("--mask", action="append", default=None,
@@ -417,7 +404,10 @@ def main() -> int:
 
     # Load image
     try:
-        mask, width, height = load_binary_mask(args.image_path, args.alpha_threshold)
+        mask, width, height = load_binary_mask(
+            args.image_path, args.alpha_threshold,
+            force_png_py=args.force_png_py,
+        )
     except Exception as e:
         print(f"ERROR: Failed to read image: {e}", file=sys.stderr)
         return 1

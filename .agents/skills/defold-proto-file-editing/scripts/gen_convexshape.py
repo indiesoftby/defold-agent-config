@@ -15,6 +15,10 @@ Arguments:
     --output, -o        Output .convexshape file path (default: prints to stdout)
     --max-points, -m    Maximum number of hull points (default: 16, Box2D limit in Defold)
     --alpha-threshold   Alpha value threshold for "non-transparent" (0-255, default: 1)
+    --force-png-py      Force using bundled png.py instead of PIL (PNG only)
+
+Environment:
+    FORCE_PNG_PY=1      Same as --force-png-py
 
 Output:
     Protobuf Text Format .convexshape with TYPE_HULL shape, points centered at image origin.
@@ -24,44 +28,14 @@ Exit code 0 on success, 1 on error.
 
 import argparse
 import math
+import os
 import sys
 from typing import TextIO
 
-
-def load_alpha_mask(path: str, threshold: int) -> tuple[list[tuple[int, int]], int, int]:
-    """Load image and return list of non-transparent pixel coordinates, width, height."""
-    from PIL import Image
-
-    img = Image.open(path)
-    width, height = img.size
-
-    if img.mode == "RGBA":
-        pixels = img.load()
-        coords = []
-        for y in range(height):
-            for x in range(width):
-                if pixels[x, y][3] >= threshold:
-                    coords.append((x, y))
-    elif img.mode == "LA":
-        pixels = img.load()
-        coords = []
-        for y in range(height):
-            for x in range(width):
-                if pixels[x, y][1] >= threshold:
-                    coords.append((x, y))
-    elif img.mode == "P":
-        img_rgba = img.convert("RGBA")
-        pixels = img_rgba.load()
-        coords = []
-        for y in range(height):
-            for x in range(width):
-                if pixels[x, y][3] >= threshold:
-                    coords.append((x, y))
-    else:
-        # No alpha channel (RGB, L, etc.) — all pixels are opaque
-        coords = [(x, y) for y in range(height) for x in range(width)]
-
-    return coords, width, height
+# image_loader is in the same directory; adjust sys.path so it's importable
+# both when invoked directly and from the editor script.
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from image_loader import load_alpha_mask
 
 
 def extract_boundary_pixels(coords: list[tuple[int, int]], width: int, height: int) -> list[tuple[int, int]]:
@@ -200,11 +174,18 @@ def main() -> int:
                         help="Maximum number of hull points (default: 16)")
     parser.add_argument("--alpha-threshold", "-a", type=int, default=1,
                         help="Alpha threshold for non-transparent pixels (0-255, default: 1)")
+    parser.add_argument("--inset", "-i", type=float, default=0.0,
+                        help="Inset percentage to shrink the shape (0-100, default: 0)")
+    parser.add_argument("--force-png-py", action="store_true",
+                        help="Force using bundled png.py instead of PIL (PNG only)")
     args = parser.parse_args()
 
     # Load image and get non-transparent pixels
     try:
-        coords, width, height = load_alpha_mask(args.image_path, args.alpha_threshold)
+        coords, width, height = load_alpha_mask(
+            args.image_path, args.alpha_threshold,
+            force_png_py=args.force_png_py,
+        )
     except Exception as e:
         print(f"ERROR: Failed to read image: {e}", file=sys.stderr)
         return 1
@@ -233,6 +214,16 @@ def main() -> int:
     cx = width / 2.0
     cy = height / 2.0
     centered_hull = [(x - cx, cy - y) for x, y in hull]
+
+    # Apply inset: shrink each point toward centroid by percentage
+    if args.inset > 0.0:
+        centroid_x = sum(x for x, y in centered_hull) / len(centered_hull)
+        centroid_y = sum(y for x, y in centered_hull) / len(centered_hull)
+        scale = 1.0 - args.inset / 100.0
+        centered_hull = [
+            (centroid_x + (x - centroid_x) * scale, centroid_y + (y - centroid_y) * scale)
+            for x, y in centered_hull
+        ]
 
     # Ensure counter-clockwise winding (required by Defold 2D physics)
     centered_hull = ensure_ccw(centered_hull)

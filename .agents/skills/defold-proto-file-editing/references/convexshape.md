@@ -211,7 +211,7 @@ For sprites with non-rectangular shapes (characters, objects with transparency),
 ### Usage
 
 ```
-python .agents/skills/defold-proto-file-editing/scripts/gen_convexshape.py <image_path> [--output <path>] [--max-points N] [--alpha-threshold T]
+python .agents/skills/defold-proto-file-editing/scripts/gen_convexshape.py <image_path> [--output <path>] [--max-points N] [--alpha-threshold T] [--inset P]
 ```
 
 Arguments:
@@ -219,6 +219,7 @@ Arguments:
 - `--output`, `-o` — output `.convexshape` file path (default: prints to stdout)
 - `--max-points`, `-m` — maximum hull vertices (default: 16)
 - `--alpha-threshold`, `-a` — alpha value threshold for "non-transparent" pixels, 0-255 (default: 1)
+- `--inset`, `-i` — inset percentage to shrink the shape toward its centroid, 0-100 (default: 0). Useful to make the collision shape slightly smaller than the sprite's visible outline.
 
 ### Examples
 

@@ -92,10 +92,6 @@ The `AGENTS.md` configuration includes built-in awareness of these Defold librar
 - **[Object Interpolation](https://github.com/indiesoftby/defold-object-interpolation)** - Smooth object movement with fixed timestep
 - **[Sharp Sprite](https://github.com/indiesoftby/defold-sharp-sprite)** - Pixel-perfect sprite rendering with RGSS materials
 
-## Bonus
-
-This repository also includes an editor script for generating convex collision shapes from images. It will be extracted into a separate library in the future.
-
 ## Roadmap - and can the community help with that?...
 
 1. **Battle-test on real projects** — use this configuration in production Defold projects and refine it along the way. Btw, you can always ask your AI agent to "improve this skill based on our conversation" and it will update the skill files automatically.

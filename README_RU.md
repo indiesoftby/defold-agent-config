@@ -92,10 +92,6 @@
 - **[Object Interpolation](https://github.com/indiesoftby/defold-object-interpolation)** — Плавное движение объектов с фиксированным шагом времени
 - **[Sharp Sprite](https://github.com/indiesoftby/defold-sharp-sprite)** — Пиксельно-точный рендеринг спрайтов с материалами RGSS
 
-## Бонус
-
-Репозиторий также содержит editor script для генерации выпуклых (convex) форм коллизий из изображений (`editor/convex_shape.editor_script`). В будущем он будет выделен в отдельную библиотеку.
-
 ## Roadmap - and can the community help with that?...
 
 1. **Обкатка на реальных проектах** — использовать эту конфигурацию в рабочих Defold-проектах и дорабатывать в процессе. Кстати, вы всегда можете попросить вашего ИИ-агента "доработать этот скилл на основе нашего диалога" — и он сам обновит файлы скилла.
