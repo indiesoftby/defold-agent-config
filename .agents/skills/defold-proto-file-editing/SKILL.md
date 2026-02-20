@@ -1,6 +1,6 @@
 ---
 name: defold-proto-file-editing
-description: "Creates and edits Defold resource and component files that use Protobuf Text Format (.collection, .go, .atlas, .sprite, .gui, .collisionobject, .convexshape, .label, .font, .material, .model, .mesh, .particlefx, .sound, .camera, .factory, .collectionfactory, .collectionproxy, .tilemap, .tilesource, .objectinterpolation) and shader files (.vp, .fp, .glsl). Use when asked to create, modify, or configure any Defold proto text format file or shader."
+description: "Creates and edits Defold resource and component files that use Protobuf Text Format (.collection, .go, .atlas, .sprite, .gui, .collisionobject, .convexshape, .label, .font, .material, .model, .mesh, .particlefx, .sound, .camera, .factory, .collectionfactory, .collectionproxy, .tilemap, .tilesource, .objectinterpolation). Use when asked to create, modify, or configure any Defold proto text format file."
 ---
 
 # Editing Defold Proto Text Format Files
@@ -41,7 +41,7 @@ For skill maintenance tasks (updating references, fetching proto schemas), use t
 
 ## Shaders and materials relationship
 
-Shaders (`.vp`, `.fp`, `.glsl`) are GLSL files and are NOT covered by this skill. However, shaders and materials are tightly coupled:
+Shaders (`.vp`, `.fp`, `.glsl`) are GLSL files and are NOT covered by this skill — use the `defold-shaders-editing` skill for shader files. However, shaders and materials are tightly coupled:
 
 ### Data flow from material to shader
 
