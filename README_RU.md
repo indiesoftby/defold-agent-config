@@ -84,6 +84,7 @@
 | **defold-shaders-editing** | Создаёт и редактирует шейдерные файлы Defold (.vp, .fp, .glsl) |
 | **defold-skill-maintain** | Обслуживает и обновляет определения скиллов |
 | **monarch-screen-setup** | Настраивает экраны и попапы с помощью Monarch |
+| **xmath-usage** | Справочник API xmath и паттерны оптимизации математики без аллокаций |
 
 ## Поддерживаемые модули Defold
 
@@ -92,6 +93,7 @@
 - **[Monarch](https://github.com/britzl/monarch)** — Управление экранами и попапами
 - **[Object Interpolation](https://github.com/indiesoftby/defold-object-interpolation)** — Плавное движение объектов с фиксированным шагом времени
 - **[Sharp Sprite](https://github.com/indiesoftby/defold-sharp-sprite)** — Пиксельно-точный рендеринг спрайтов с материалами RGSS
+- **[Xmath](https://github.com/thejustinwalsh/defold-xmath)** — Математические операции без аллокаций для векторов, кватернионов и матриц
 
 ## Roadmap - and can the community help with that?...
 

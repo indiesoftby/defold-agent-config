@@ -43,6 +43,8 @@ When creating or editing Defold asset files, use the corresponding `defold-*-edi
 
 When creating new screens, popups, or setting up navigation between them, load the `monarch-screen-setup` skill first.
 
+When writing performance-critical math code or optimizing vector/quaternion/matrix operations, load the `xmath-usage` skill first.
+
 ## Code style guidelines
 
 ### Lua scripts (.lua, .script, .gui_script, .render_script, .editor_script)

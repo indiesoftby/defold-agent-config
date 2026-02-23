@@ -84,6 +84,7 @@ The following skills are included in `.agents/skills/`:
 | **defold-shaders-editing** | Creates and edits Defold shader files (.vp, .fp, .glsl) |
 | **defold-skill-maintain** | Maintains and updates skill definitions |
 | **monarch-screen-setup** | Sets up screens and popups using Monarch screen manager |
+| **xmath-usage** | Provides xmath API reference and in-place math optimization patterns |
 
 ## Supported Defold Modules
 
@@ -92,6 +93,7 @@ The `AGENTS.md` configuration includes built-in awareness of these Defold librar
 - **[Monarch](https://github.com/britzl/monarch)** - Screen and popup management
 - **[Object Interpolation](https://github.com/indiesoftby/defold-object-interpolation)** - Smooth object movement with fixed timestep
 - **[Sharp Sprite](https://github.com/indiesoftby/defold-sharp-sprite)** - Pixel-perfect sprite rendering with RGSS materials
+- **[Xmath](https://github.com/thejustinwalsh/defold-xmath)** - Zero-allocation in-place math operations for vectors, quaternions, and matrices
 
 ## Roadmap - and can the community help with that?...
 
