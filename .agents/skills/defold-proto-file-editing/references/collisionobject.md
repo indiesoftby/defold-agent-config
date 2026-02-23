@@ -60,6 +60,8 @@ collision_shape: "/main/level.tilemap"
 type: COLLISION_OBJECT_TYPE_DYNAMIC
 ```
 
+**Parent transform caveat**: Dynamic collision objects (`COLLISION_OBJECT_TYPE_DYNAMIC`) must NOT be placed in a child game object whose parent has non-zero position or rotation. The physics engine overwrites the game object's world transform every frame with the simulated body's position/rotation, and parent transforms are not taken into account — the object will ignore its parent hierarchy entirely. Static, kinematic, and trigger objects are not affected by this limitation because their transforms are not driven by the physics engine.
+
 ### mass (required) — `float`
 
 Physical mass of the object. Must be `0.0` for static and kinematic objects. Must be non-zero for dynamic objects.
