@@ -8,6 +8,10 @@ Game object script — Lua file attached to a game object as a component. Define
 
 **Not available**: `gui`, `render`
 
+**Platform-specific**: `html5` is only available on the **HTML5** platform.
+
+**App Manifest exclusions**: Some built-in modules (`liveupdate`, `image`, `types`, `profiler`, `sound`, `physics`, etc.) can be excluded via the App Manifest to reduce binary size. If excluded, their APIs will not be available at runtime.
+
 For API details of specific namespaces use `defold-api-fetch`.
 
 ## Game object addressing
