@@ -44,6 +44,14 @@ Avoid globals in modules. For stateful modules, internal state is shared between
 
 All script types and `.lua` modules are plain Lua files (not Protobuf Text Format). Scripts use specific extensions (`.script`, `.gui_script`, etc.); modules use `.lua`.
 
+## Runtime environment notes (.script, .gui_script, .render_script)
+
+**Platform-specific**: `html5` module is only available on the **HTML5** platform.
+
+**App Manifest exclusions**: Some built-in modules (`liveupdate`, `image`, `types`, `profiler`, `sound`, `physics`, etc.) can be excluded via the App Manifest to reduce binary size. If excluded, their APIs will not be available at runtime.
+
+**No `utf8` module**: For working with non-ASCII strings, use the defold-utf8 dependency (`https://github.com/d954mas/defold-utf8/archive/refs/heads/master.zip`). API reference: [utf8.script_api](https://github.com/d954mas/defold-utf8/blob/master/utf8/api/utf8.script_api).
+
 ## Common runtime script patterns (.script, .gui_script, .render_script)
 
 All runtime lifecycle callbacks receive `self` as the first parameter — a userdata that acts like a table for storing instance state.
