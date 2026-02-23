@@ -75,6 +75,8 @@ Fetch documentation from the links below (the URLs point to plain Markdown files
 
 ## Extension APIs
 
+> **Note:** Extension APIs (`extension-*`) require the corresponding extension to be added as a dependency in `game.project`. To learn how to install and configure a specific extension, use the `defold-docs-fetch` skill to look up its documentation page.
+
 | Extension | URL |
 |-----------|-----|
 | crypt (Crypt) | https://defold.com/llms/apis/extension-crypt_crypt.md |
