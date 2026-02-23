@@ -84,6 +84,11 @@ function init(self)
 end
 ```
 
+## Physics caveats
+
+- **Raycast from inside an object**: `physics.raycast()` and `physics.raycast_async()` ignore any collision object that contains the ray's starting point. If the ray originates from within the object's own collision shape, that object will never appear in the results — no special filtering is needed.
+- **Triggers vs raycasts**: Rays only intersect with dynamic, kinematic, and static collision objects. Trigger objects are invisible to raycasts.
+
 ## Property overrides in .go files
 
 When a `.script` is referenced in a `.go` file, its `go.property` values can be overridden using `PropertyDesc` entries:
