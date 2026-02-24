@@ -74,6 +74,7 @@ The following skills are included in `.agents/skills/`:
 | Skill | Description |
 |---|---|
 | **defold-api-fetch** | Fetches Defold engine API documentation |
+| **defold-assets-search** | Searches the Defold Asset Store for community libraries and extensions |
 | **defold-docs-fetch** | Fetches Defold manuals and conceptual documentation |
 | **defold-examples-fetch** | Fetches Defold code examples by topic |
 | **defold-native-extension-editing** | Assists with native extension development (C/C++, JS, manifests) |

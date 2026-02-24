@@ -74,6 +74,7 @@
 | Скилл | Описание |
 |---|---|
 | **defold-api-fetch** | Загружает документацию API движка Defold |
+| **defold-assets-search** | Поиск библиотек и расширений в Defold Asset Store |
 | **defold-docs-fetch** | Загружает руководства и концептуальную документацию Defold |
 | **defold-examples-fetch** | Загружает примеры кода Defold по темам |
 | **defold-native-extension-editing** | Помогает с разработкой нативных расширений (C/C++, JS, манифесты) |
