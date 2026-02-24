@@ -257,9 +257,6 @@ def main() -> None:
 	game_project_text = game_project_path.read_text(encoding="utf-8")
 	deps = parse_project_dependencies(game_project_text)
 
-	if not deps:
-		raise RuntimeError("No [project] dependencies found in root game.project")
-
 	print(f"Project root: {project_root}")
 	print(f"Dependencies: {len(deps)}")
 	print(f"Output dir: {deps_dir.relative_to(project_root)}")
@@ -269,31 +266,34 @@ def main() -> None:
 
 	deps_dir.mkdir(parents=True, exist_ok=True)
 
-	tmp_dir = Path(tempfile.mkdtemp(prefix="sync_deps_"))
-	try:
-		for i, url in enumerate(deps):
-			print()
-			print(f"== Dependency {i + 1}/{len(deps)} ==")
-			print(url)
+	if deps:
+		tmp_dir = Path(tempfile.mkdtemp(prefix="sync_deps_"))
+		try:
+			for i, url in enumerate(deps):
+				print()
+				print(f"== Dependency {i + 1}/{len(deps)} ==")
+				print(url)
 
-			if not dry_run:
-				zip_path = tmp_dir / f"dep_{i:02d}.zip"
-				download_to_file(url, zip_path)
+				if not dry_run:
+					zip_path = tmp_dir / f"dep_{i:02d}.zip"
+					download_to_file(url, zip_path)
 
-				zip_root_prefix, project_text = find_game_project_in_zip(zip_path)
-				include_dirs = parse_library_include_dirs(project_text)
+					zip_root_prefix, project_text = find_game_project_in_zip(zip_path)
+					include_dirs = parse_library_include_dirs(project_text)
 
-				for d in include_dirs:
-					assert_safe_include_dir(d)
+					for d in include_dirs:
+						assert_safe_include_dir(d)
 
-				print(f"  include_dirs: {', '.join(include_dirs)}")
+					print(f"  include_dirs: {', '.join(include_dirs)}")
 
-				delete_local_include_dirs(deps_dir, include_dirs)
-				extract_selected_dirs(deps_dir, zip_path, zip_root_prefix, include_dirs)
-			else:
-				print("  Would download, inspect zip, read include_dirs, delete local folders, and extract.")
-	finally:
-		shutil.rmtree(tmp_dir, ignore_errors=True)
+					delete_local_include_dirs(deps_dir, include_dirs)
+					extract_selected_dirs(deps_dir, zip_path, zip_root_prefix, include_dirs)
+				else:
+					print("  Would download, inspect zip, read include_dirs, delete local folders, and extract.")
+		finally:
+			shutil.rmtree(tmp_dir, ignore_errors=True)
+	else:
+		print("\nNo [project] dependencies found in game.project, skipping library fetch.")
 
 	print()
 	print("== Builtins ==")
