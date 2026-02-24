@@ -246,6 +246,32 @@ def sync_builtins(deps_dir: Path) -> None:
 		shutil.rmtree(tmp_dir, ignore_errors=True)
 
 
+def fix_gitignore_builtins(project_root: Path) -> None:
+	"""Replace bare 'builtins' with '/builtins' in .gitignore.
+
+	A bare 'builtins' pattern matches at any depth, which causes tools
+	to ignore .deps/builtins/.  The anchored '/builtins' only matches
+	the top-level builtins/ directory.
+	"""
+	gitignore_path = project_root / ".gitignore"
+	if not gitignore_path.exists():
+		return
+
+	text = gitignore_path.read_text(encoding="utf-8")
+	lines = text.splitlines(keepends=True)
+	changed = False
+
+	for i, line in enumerate(lines):
+		stripped = line.rstrip("\n\r")
+		if stripped == "builtins" or stripped == "builtins/":
+			lines[i] = "/" + stripped + line[len(stripped):]
+			changed = True
+
+	if changed:
+		gitignore_path.write_text("".join(lines), encoding="utf-8")
+		print("  Fixed .gitignore: 'builtins' -> '/builtins'")
+
+
 def main() -> None:
 	dry_run = "--dry-run" in sys.argv
 
@@ -265,6 +291,13 @@ def main() -> None:
 		print("DRY-RUN: Will not download/delete/extract.")
 
 	deps_dir.mkdir(parents=True, exist_ok=True)
+
+	print()
+	print("== .gitignore ==")
+	if not dry_run:
+		fix_gitignore_builtins(project_root)
+	else:
+		print("  Would fix 'builtins' -> '/builtins' in .gitignore")
 
 	if deps:
 		tmp_dir = Path(tempfile.mkdtemp(prefix="sync_deps_"))
