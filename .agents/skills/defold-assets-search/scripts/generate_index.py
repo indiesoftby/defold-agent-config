@@ -33,7 +33,7 @@ def main() -> None:
     # Sort by stars descending (None → 0)
     entries.sort(key=lambda e: e.get("stars") or 0, reverse=True)
 
-    header = "id\ttitle\tauthor\tdescription\ttags\tstars\tapi\tmanifest_url\tlatest_zip"
+    header = "id\ttitle\tauthor\tdescription\ttags\tstars\tapi\texample_code\tmanifest_url\tlatest_zip"
     lines: list[str] = [header]
 
     for e in entries:
@@ -53,6 +53,7 @@ def main() -> None:
             tags_str,
             str(e.get("stars") or 0),
             e.get("api") or "",
+            e.get("example_code") or "",
             e.get("manifest_url") or "",
             latest_zip,
         ])
