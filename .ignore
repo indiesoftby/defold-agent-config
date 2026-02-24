@@ -1,0 +1,3 @@
+# Ripgrep: include .deps (overrides .gitignore for search)
+!.deps
+!.deps/**

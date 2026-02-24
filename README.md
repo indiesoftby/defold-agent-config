@@ -44,6 +44,44 @@ The configuration uses the `.agents/` directory format, which is supported by:
 
 That's it - the agent will pick up the instructions and skills automatically.
 
+## .deps gitignore settings — read this carefully!
+
+If you add `.deps/` to `.gitignore` (to avoid committing downloaded dependencies), **AI agents will ignore it by default** — their internal tools (Glob, Grep, file picker) respect `.gitignore`. Ironically, many agents treat `node_modules` in JS projects as a special case and still index it; `.deps` in Defold projects gets no such favor. To make agents see `.deps` while keeping it out of git, add these files:
+
+**1. `.gitignore`** — use `.deps/**` (not `/.deps`), so negation rules work correctly:
+
+```
+.deps/**
+```
+
+**2. `.cursorignore`** (Cursor only) — negate the ignore so indexing includes `.deps`:
+
+```
+!.deps
+!.deps/**
+```
+
+**3. `.ignore`** (for ripgrep/Grep) — same negation so search finds files in `.deps`:
+
+```
+!.deps
+!.deps/**
+```
+
+**Claude Code** has no `.cursorignore`. Add to `.claude/settings.json`:
+
+```json
+{
+  "permissions": {
+    "allow": ["Read(./.deps/**)"]
+  }
+}
+```
+
+For other agents, look for workarounds in their documentation (ignore files, indexing settings, permission rules).
+
+**Self-check:** Ask your agent: *"Find all input_binding files"*. It should return `.deps/builtins/input/all.input_binding`. If not, the agent still cannot see `.deps` — double-check the configuration above.
+
 ## Installed... so what's next?
 
 Open your project in Defold Editor and your AI agent side by side. Here's what you can do:

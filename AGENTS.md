@@ -15,6 +15,8 @@ Key Defold settings from `game.project`:
 
 - **Bootstrap collection**: `/main/main.collection`
 
+**Resource paths in `game.project`**: Values like `main_collection`, `game_binding`, `app_icon` use Defold resource identifiers. A trailing `c` suffix denotes compiled resources and is expected — do not treat it as a typo.
+
 ## Include directories
 
 - Use `.deps/` as an include directory for resolving module references and understanding dependency APIs.
