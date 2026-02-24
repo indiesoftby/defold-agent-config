@@ -1,10 +1,10 @@
 """Download Defold Asset Store JSON and generate a compact TSV index.
 
 Usage:
-    python .agents/skills/defold-assets-fetch/scripts/generate_index.py
+    python .agents/skills/defold-assets-search/scripts/generate_index.py
 
 Output:
-    .agents/skills/defold-assets-fetch/assets/dependencies_index.tsv
+    .agents/skills/defold-assets-search/assets/dependencies_index.tsv
 """
 
 import json

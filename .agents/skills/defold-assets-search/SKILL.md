@@ -1,5 +1,5 @@
 ---
-name: defold-assets-fetch
+name: defold-assets-search
 description: "Searches the Defold Asset Store for community libraries and extensions. Use BEFORE writing custom modules for pathfinding, RNG, UI, save/load, localization, tweening, input handling, etc. Helps find, compare, and install Defold dependencies."
 ---
 
@@ -28,7 +28,7 @@ Search the Defold community Asset Store to find existing libraries instead of wr
 
 ### Step 1: Generate and search the index
 
-The index file is `.agents/skills/defold-assets-fetch/assets/dependencies_index.tsv`. If it already exists and is less than 24 hours old, use it directly. Otherwise, regenerate it by running `python .agents/skills/defold-assets-fetch/scripts/generate_index.py` from the project root. The TSV columns:
+The index file is `.agents/skills/defold-assets-search/assets/dependencies_index.tsv`. If it already exists and is less than 24 hours old, use it directly. Otherwise, regenerate it by running `python .agents/skills/defold-assets-search/scripts/generate_index.py` from the project root. The TSV columns:
 
 ```
 id  title  author  description  tags  stars  api  manifest_url  latest_zip
