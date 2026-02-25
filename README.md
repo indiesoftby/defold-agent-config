@@ -15,6 +15,7 @@ The configuration uses the `.agents/` directory format, which is supported by:
 - **[Codex CLI](https://github.com/openai/codex)**
 - **[Cursor](https://cursor.com)**
 - **[Factory Droid](https://factory.ai)**
+- **[Gemini CLI](https://github.com/google-gemini/gemini-cli)**
 - **[GitHub Copilot](https://github.com/features/copilot)** (requires renaming `.agents/` to `.github/`)
 - **[Kilo Code](https://kilocode.ai)**
 - **[OpenCode](https://opencode.ai)**

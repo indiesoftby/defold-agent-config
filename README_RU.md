@@ -15,6 +15,7 @@
 - **[Codex CLI](https://github.com/openai/codex)**
 - **[Cursor](https://cursor.com)**
 - **[Factory Droid](https://factory.ai)**
+- **[Gemini CLI](https://github.com/google-gemini/gemini-cli)**
 - **[GitHub Copilot](https://github.com/features/copilot)** (требует переименования `.agents/` в `.github/`)
 - **[Kilo Code](https://kilocode.ai)**
 - **[OpenCode](https://opencode.ai)**
