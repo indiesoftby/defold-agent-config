@@ -21,6 +21,9 @@
 - **[OpenCode](https://opencode.ai)**
 - **[Warp](https://warp.dev)**
 - **[Windsurf](https://windsurf.com)** (需重命名 `.agents/` 为 `.windsurf/`)
+- **[Trae CN](https://www.trae.cn)** (需重命名 `.agents/` 为 `.trae/`)
+- **[Trae](https://www.trae.ai)** (需重命名 `.agents/` 为 `.trae/`)
+- **[Codebuddy](https://www.codebuddy.ai)** (需重命名 `.agents/` 为 `.codebuddy/`)
 - 以及其他许多 AI 工具
 
 ## 要求
@@ -39,6 +42,9 @@
 > - **Claude Code**: 将 `.agents/` 重命名为 `.claude/`，并在所有 `.md` 文件中执行搜索替换：`.agents/` → `.claude/`
 > - **GitHub Copilot**: 将 `.agents/` 重命名为 `.github/`，并在所有 `.md` 文件中执行搜索替换：`.agents/skills/` → `.github/skills/`
 > - **Windsurf**: 将 `.agents/` 重命名为 `.windsurf/`，并在所有 `.md` 文件中执行搜索替换：`.agents/` → `.windsurf/`
+> - **Trae CN**: 将 `.agents/` 重命名为 `.trae/`，并在所有 `.md` 文件中执行搜索替换：`.agents/` → `.trae/`
+> - **Trae**: 将 `.agents/` 重命名为 `.trae/`，并在所有 `.md` 文件中执行搜索替换：`.agents/` → `.trae/`
+> - **Codebuddy**: 将 `.agents/` 重命名为 `.codebuddy/`，并在所有 `.md` 文件中执行搜索替换：`.agents/` → `.codebuddy/`  
 
 2. 对你的 AI Agent 说：`运行Skill defold-project-setup 以将依赖项下载到 .deps/`
 3. 对你的 AI Agent 说：`根据我的项目结构、依赖项和文件夹更新 AGENTS.md`
