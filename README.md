@@ -21,6 +21,9 @@ The configuration uses the `.agents/` directory format, which is supported by:
 - **[OpenCode](https://opencode.ai)**
 - **[Warp](https://warp.dev)**
 - **[Windsurf](https://windsurf.com)** (requires renaming `.agents/` to `.windsurf/`)
+- **[Trae CN](https://www.trae.cn)** (requires renaming `.agents/` to `.trae/`)
+- **[Trae](https://www.trae.ai)** (requires renaming `.agents/` to `.trae/`)
+- **[Codebuddy](https://www.codebuddy.ai)** (requires renaming `.agents/` to `.codebuddy/`)
 - and many others
 
 ## Prerequisites
@@ -39,6 +42,9 @@ The configuration uses the `.agents/` directory format, which is supported by:
 > - **Claude Code**: Rename `.agents/` to `.claude/` and run find-and-replace across all `.md` files: `.agents/` → `.claude/`
 > - **GitHub Copilot**: Rename `.agents/` to `.github/` and run find-and-replace across all `.md` files: `.agents/skills/` → `.github/skills/`
 > - **Windsurf**: Rename `.agents/` to `.windsurf/` and run find-and-replace across all `.md` files: `.agents/` → `.windsurf/`
+> - **Trae CN**: Rename `.agents/` to `.trae/` and run find-and-replace across all `.md` files: `.agents/` → `.trae/`
+> - **Trae**: Rename `.agents/` to `.trae/` and run find-and-replace across all `.md` files: `.agents/` → `.trae/`
+> - **Codebuddy**: Rename `.agents/` to `.codebuddy/` and run find-and-replace across all `.md` files: `.agents/` → `.codebuddy/`
 
 2. Ask your AI agent: `Run the defold-project-setup skill to download dependencies into .deps/`
 3. Ask your AI agent: `Update AGENTS.md based on my project's structure, dependencies, and folders`

@@ -21,6 +21,9 @@
 - **[OpenCode](https://opencode.ai)**
 - **[Warp](https://warp.dev)**
 - **[Windsurf](https://windsurf.com)** (требует переименования `.agents/` в `.windsurf/`)
+- **[Trae CN](https://www.trae.cn)** (требует переименования `.agents/` в `.trae/`)
+- **[Trae](https://www.trae.ai)** (требует переименования `.agents/` в `.trae/`)
+- **[Codebuddy](https://www.codebuddy.ai)** (требует переименования `.agents/` в `.codebuddy/`)
 - и многими другими
 
 ## Требования
@@ -39,6 +42,9 @@
 > - **Claude Code**: Переименуйте `.agents/` в `.claude/` и выполните поиск-замену во всех `.md` файлах: `.agents/` → `.claude/`
 > - **GitHub Copilot**: Переименуйте `.agents/` в `.github/` и выполните поиск-замену во всех `.md` файлах: `.agents/skills/` → `.github/skills/`
 > - **Windsurf**: Переименуйте `.agents/` в `.windsurf/` и выполните поиск-замену во всех `.md` файлах: `.agents/` → `.windsurf/`
+> - **Trae CN**: Переименуйте `.agents/` в `.trae/` и выполните поиск-замену во всех `.md` файлах: `.agents/` → `.trae/`
+> - **Trae**: Переименуйте `.agents/` в `.trae/` и выполните поиск-замену во всех `.md` файлах: `.agents/` → `.trae/`
+> - **Codebuddy**: Переименуйте `.agents/` в `.codebuddy/` и выполните поиск-замену во всех `.md` файлах: `.agents/` → `.codebuddy/` 
 
 2. Попросите вашего ИИ-агента: `Запусти скилл defold-project-setup, чтобы скачать зависимости в .deps/`
 3. Попросите вашего ИИ-агента: `Обнови AGENTS.md на основе структуры моего проекта, зависимостей и папок`
