@@ -24,6 +24,7 @@ The configuration uses the `.agents/` directory format, which is supported by:
 - **[Trae CN](https://www.trae.cn)** (requires renaming `.agents/` to `.trae/`)
 - **[Trae](https://www.trae.ai)** (requires renaming `.agents/` to `.trae/`)
 - **[Codebuddy](https://www.codebuddy.ai)** (requires renaming `.agents/` to `.codebuddy/`)
+- **[Deep Code](https://github.com/lessweb/deepcode-cli)** (requires renaming `.agents/` to `.deepcode/`)
 - and many others
 
 ## Prerequisites
@@ -45,6 +46,7 @@ The configuration uses the `.agents/` directory format, which is supported by:
 > - **Trae CN**: Rename `.agents/` to `.trae/` and run find-and-replace across all `.md` files: `.agents/` → `.trae/`
 > - **Trae**: Rename `.agents/` to `.trae/` and run find-and-replace across all `.md` files: `.agents/` → `.trae/`
 > - **Codebuddy**: Rename `.agents/` to `.codebuddy/` and run find-and-replace across all `.md` files: `.agents/` → `.codebuddy/`
+> - **Deep Code**: Rename `.agents/` to `.deepcode/` and run find-and-replace across all `.md` files: `.agents/` → `.deepcode/`
 
 2. Ask your AI agent: `Run the defold-project-setup skill to download dependencies into .deps/`
 3. Ask your AI agent: `Update AGENTS.md based on my project's structure, dependencies, and folders`

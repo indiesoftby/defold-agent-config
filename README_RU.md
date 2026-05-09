@@ -24,6 +24,7 @@
 - **[Trae CN](https://www.trae.cn)** (требует переименования `.agents/` в `.trae/`)
 - **[Trae](https://www.trae.ai)** (требует переименования `.agents/` в `.trae/`)
 - **[Codebuddy](https://www.codebuddy.ai)** (требует переименования `.agents/` в `.codebuddy/`)
+- **[Deep Code](https://github.com/lessweb/deepcode-cli)** (требует переименования `.agents/` в `.deepcode/`.)
 - и многими другими
 
 ## Требования
@@ -45,6 +46,7 @@
 > - **Trae CN**: Переименуйте `.agents/` в `.trae/` и выполните поиск-замену во всех `.md` файлах: `.agents/` → `.trae/`
 > - **Trae**: Переименуйте `.agents/` в `.trae/` и выполните поиск-замену во всех `.md` файлах: `.agents/` → `.trae/`
 > - **Codebuddy**: Переименуйте `.agents/` в `.codebuddy/` и выполните поиск-замену во всех `.md` файлах: `.agents/` → `.codebuddy/` 
+> - **Deep Code**: Переименуйте `.agents/` в `.deepcode/` и выполните поиск-замену во всех `.md` файлах: `.agents/` → `.deepcode/` 
 
 2. Попросите вашего ИИ-агента: `Запусти скилл defold-project-setup, чтобы скачать зависимости в .deps/`
 3. Попросите вашего ИИ-агента: `Обнови AGENTS.md на основе структуры моего проекта, зависимостей и папок`
